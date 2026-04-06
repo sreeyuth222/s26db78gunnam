@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  .container.mt-4
+    h1= title
+    p Welcome to #{title}
+
+    button(type="button", class="btn btn-secondary", onclick="reduce()") Sample Button
+    div(id="use" class="mt-3") take some away
+
+    hr
+
+    p
+      a(href="/games") Go to Games Search Results
+
+    p
+      a(href="/grid?rows=6&cols=5") Go to Grid Display
+
+    p
+      a(href="/selector") Go to Random Item Display
+
+  script.
+    let current = 11;
+    let quantity = 2;
+
+    function reduce() {
+      current -= quantity;
+      if (current < 0) {
+        current = 0;
+      }
+      document.getElementById("use").innerHTML = `Reduced by ${quantity} to ${current}`;
+    }

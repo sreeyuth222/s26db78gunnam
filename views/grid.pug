@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  .container.mt-4
+    h1= title
+
+    p Rows: #{query.rows}
+    p Cols: #{query.cols}
+
+    - var rows = Number(query.rows)
+    - var cols = Number(query.cols)
+
+    if isNaN(rows) || isNaN(cols)
+      p Invalid input: rows and cols must be numbers
+    else if rows < 2 || rows > 12
+      p Rows must be between 2 and 12
+    else if cols < 2 || cols > 12
+      p Cols must be between 2 and 12
+    else
+      table.table.table-bordered
+        - for (var i = 0; i < rows; i++)
+          tr
+            - for (var j = 0; j < cols; j++)
+              td= (2 * i) - j

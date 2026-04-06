@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  .container.mt-4
+    h1= title
+
+    - var images = ["game1.jpg", "game2.jpg", "game3.jpg", "game4.jpg", "game5.jpg"]
+
+    .d-flex.flex-wrap.gap-3
+      - for (var i = 0; i < 3; i++)
+        - var index = Math.floor(Math.random() * images.length)
+        img(src="/images/" + images[index], width="300", height="300")

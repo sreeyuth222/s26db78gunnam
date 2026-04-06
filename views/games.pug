@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .container.mt-4
+    h1= title
+
+    - var results = [{ game_name: "Cricket Clash", platform: "PC", players: 2 }, { game_name: "Galaxy Race", platform: "PlayStation", players: 4 }, { game_name: "River Quest", platform: "Xbox", players: 1 }]
+
+    .container-fluid
+      .row
+        each item, index in results
+          .col-sm-2.border.rounded.m-2.p-3(style="cursor:pointer;", onclick="buy(" + index + ")")
+            p
+              strong Game:
+              |  #{item.game_name}
+            p
+              strong Platform:
+              |  #{item.platform}
+            p
+              strong Players:
+              |  #{item.players}
+
+    script.
+      function buy(index) {
+        alert("You purchased item " + index);
+      }

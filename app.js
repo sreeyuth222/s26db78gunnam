@@ -4,11 +4,31 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+require('dotenv').config();
+const mongoose = require('mongoose');
+
+const connectionString = process.env.MONGO_CON;
+var Costume = require("./models/costume");
+
+let reseed = true;
+
+mongoose.connect(connectionString);
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', async function () {
+  console.log('Connection to DB succeeded');
+  if (reseed) {
+    await recreateDB();
+  }
+});
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var gamesRouter = require('./routes/games');
 var gridRouter = require('./routes/grid');
 var selectorRouter = require('./routes/pick');
+var resourceRouter = require('./routes/resource');
 
 var app = express();
 
@@ -27,6 +47,7 @@ app.use('/users', usersRouter);
 app.use('/games', gamesRouter);
 app.use('/grid', gridRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,3 +64,32 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+async function recreateDB() {
+  await Costume.deleteMany();
+
+  let instance1 = new Costume({
+    costume_type: "ghost",
+    size: "large",
+    cost: 15.4
+  });
+
+  let instance2 = new Costume({
+    costume_type: "witch",
+    size: "medium",
+    cost: 20.0
+  });
+
+  let instance3 = new Costume({
+    costume_type: "pirate",
+    size: "small",
+    cost: 18.5
+  });
+
+  await instance1.save();
+  await instance2.save();
+  await instance3.save();
+
+  console.log("Sample data seeded");
+}
+

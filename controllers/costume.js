@@ -31,3 +31,16 @@ exports.costume_delete = function(req, res) {
 exports.costume_update_put = function(req, res) {
     res.send('NOT IMPLEMENTED: Costume update PUT ' + req.params.id);
 };
+
+// VIEWS
+// Handle a show all view
+exports.costume_view_all_Page = async function(req, res) {
+    try {
+        theCostumes = await Costume.find();
+        res.render('costume', { title: 'Costume Search Results', results: theCostumes });
+    }
+    catch(err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
+};

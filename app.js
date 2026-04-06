@@ -29,6 +29,7 @@ var gamesRouter = require('./routes/games');
 var gridRouter = require('./routes/grid');
 var selectorRouter = require('./routes/pick');
 var resourceRouter = require('./routes/resource');
+var costumeRouter = require('./routes/costume');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use('/games', gamesRouter);
 app.use('/grid', gridRouter);
 app.use('/selector', selectorRouter);
 app.use('/resource', resourceRouter);
+app.use('/costumes', costumeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

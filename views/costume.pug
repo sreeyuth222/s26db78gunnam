@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+
+  each item in results
+    div
+      h3= item.costume_type
+      p Size: #{item.size}
+      p Cost: #{item.cost}

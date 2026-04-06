@@ -18,8 +18,22 @@ exports.costume_detail = function(req, res) {
 };
 
 // Handle Costume create on POST
-exports.costume_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume create POST');
+exports.costume_create_post = async function(req, res) {
+    console.log(req.body);
+    let document = new Costume();
+
+    document.costume_type = req.body.costume_type;
+    document.cost = req.body.cost;
+    document.size = req.body.size;
+
+    try {
+        let result = await document.save();
+        res.send(result);
+    }
+    catch(err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
 };
 
 // Handle Costume delete on DELETE

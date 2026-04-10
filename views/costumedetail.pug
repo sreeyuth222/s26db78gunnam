@@ -1,23 +1,30 @@
 extends layout
 
 block content
-  h1= title
+  //- BONUS: improved detail page look with Bootstrap container, card, headings, and cleaner spacing.
+  .container.py-4
+    .row.justify-content-center
+      .col-lg-8.col-xl-7
+        .card.shadow-sm.border-0
+          .card-header.bg-light.py-3
+            h1.h3.mb-0= title
+          .card-body.p-4
+            p.text-muted.mb-4 View complete costume information below.
 
-  - let costumeid = toShow._id
-  - let costume_type = toShow.costume_type
-  - let costumecost = toShow.cost
-  - let costumesize = toShow.size
-
-  div
-    div.row
-      div(class='costumeAttr mr-3') Costume ID is:
-      div #{costumeid}
-    div.row
-      div(class='costumeAttr mr-3') Costume Type is:
-      div #{costume_type}
-    div.row
-      div(class='costumeAttr mr-3') Costume Size is:
-      div #{costumesize}
-    div.row
-      div(class='costumeAttr mr-3') Costume Cost is:
-      div #{costumecost}
+            ul.list-group.list-group-flush
+              li.list-group-item.px-0.py-3
+                .row
+                  .col-sm-4.fw-semibold Costume ID
+                  .col-sm-8.text-break= toShow._id
+              li.list-group-item.px-0.py-3
+                .row
+                  .col-sm-4.fw-semibold Costume Type
+                  .col-sm-8= toShow.costume_type
+              li.list-group-item.px-0.py-3
+                .row
+                  .col-sm-4.fw-semibold Size
+                  .col-sm-8= toShow.size
+              li.list-group-item.px-0.py-3
+                .row
+                  .col-sm-4.fw-semibold Cost
+                  .col-sm-8 $#{toShow.cost}

@@ -1,4 +1,5 @@
 const Costume = require('../models/costume');
+const mongoose = require('mongoose');
 
 // List of all Costumes
 exports.costume_list = async function(req, res) {
@@ -96,13 +97,29 @@ exports.costume_view_all_Page = async function(req, res) {
 
 // Handle a show one view with id specified by query
 exports.costume_view_one_Page = async function(req, res) {
+    // BONUS: protect detail page from missing/invalid ids and missing documents.
     console.log("single view for id " + req.query.id)
+    const requestedId = req.query.id;
+    if (!requestedId) {
+        res.status(400);
+        return res.send("Missing id in query. Use /costumes/detail?id=<costume_id>");
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(requestedId)) {
+        res.status(400);
+        return res.send("Invalid costume id format");
+    }
+
     try {
-        let result = await Costume.findById(req.query.id)
+        let result = await Costume.findById(requestedId)
+        if (!result) {
+            res.status(404);
+            return res.send("No costume found for this id");
+        }
         res.render('costumedetail', { title: 'Costume Detail', toShow: result })
     } catch (err) {
         res.status(500)
-        res.send(`{'error': '${err}'}`)
+        res.send("Unable to load costume detail")
     }
 };
 
@@ -113,13 +130,29 @@ exports.costume_create_Page = function(req, res) {
 
 // Handle building the view for updating a costume.
 exports.costume_update_Page = async function(req, res) {
+    // BONUS: protect update page from missing/invalid ids and missing documents.
     console.log("update view for item " + req.query.id)
+    const requestedId = req.query.id;
+    if (!requestedId) {
+        res.status(400);
+        return res.send("Missing id in query. Use /costumes/update?id=<costume_id>");
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(requestedId)) {
+        res.status(400);
+        return res.send("Invalid costume id format");
+    }
+
     try {
-        let result = await Costume.findById(req.query.id)
+        let result = await Costume.findById(requestedId)
+        if (!result) {
+            res.status(404);
+            return res.send("No costume found for this id");
+        }
         res.render('costumeupdate', { title: 'Costume Update', toShow: result });
     } catch (err) {
         res.status(500)
-        res.send(`{'error': '${err}'}`)
+        res.send("Unable to load costume update page")
     }
 };
 

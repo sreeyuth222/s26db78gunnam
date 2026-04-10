@@ -49,8 +49,29 @@ exports.costume_delete = function(req, res) {
 };
 
 // Handle Costume update on PUT
-exports.costume_update_put = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume update PUT ' + req.params.id);
+// Handle Costume update on PUT
+exports.costume_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body ${JSON.stringify(req.body)}`)
+    try {
+        let toUpdate = await Costume.findById(req.params.id)
+
+        if(req.body.costume_type)
+            toUpdate.costume_type = req.body.costume_type;
+
+        if(req.body.cost)
+            toUpdate.cost = req.body.cost;
+
+        if(req.body.size)
+            toUpdate.size = req.body.size;
+
+        let result = await toUpdate.save();
+        console.log("Success " + result)
+        res.send(result)
+
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": ${err}: Update for id ${req.params.id} failed}`)
+    }
 };
 
 // VIEWS

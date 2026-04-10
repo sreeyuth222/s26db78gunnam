@@ -1,4 +1,4 @@
-var Costume = require('../models/costume');
+const Costume = require('../models/costume');
 
 // List of all Costumes
 exports.costume_list = async function(req, res) {
@@ -91,5 +91,46 @@ exports.costume_view_all_Page = async function(req, res) {
     catch(err) {
         res.status(500);
         res.send(`{"error": ${err}}`);
+    }
+};
+
+// Handle a show one view with id specified by query
+exports.costume_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try {
+        let result = await Costume.findById(req.query.id)
+        res.render('costumedetail', { title: 'Costume Detail', toShow: result })
+    } catch (err) {
+        res.status(500)
+        res.send(`{'error': '${err}'}`)
+    }
+};
+
+// Handle building the view for creating a costume.
+exports.costume_create_Page = function(req, res) {
+    res.render('randomitem', { title: 'Costume Create' });
+};
+
+// Handle building the view for updating a costume.
+exports.costume_update_Page = async function(req, res) {
+    console.log("update view for item " + req.query.id)
+    try {
+        let result = await Costume.findById(req.query.id)
+        res.render('costumedetail', { title: 'Costume Update', toShow: result });
+    } catch (err) {
+        res.status(500)
+        res.send(`{'error': '${err}'}`)
+    }
+};
+
+// Handle a delete one view with id from query.
+exports.costume_delete_Page = async function(req, res) {
+    console.log("delete view for id " + req.query.id)
+    try {
+        let result = await Costume.findById(req.query.id)
+        res.render('costumedetail', { title: 'Costume Delete', toShow: result });
+    } catch (err) {
+        res.status(500)
+        res.send(`{'error': '${err}'}`)
     }
 };

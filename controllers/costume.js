@@ -116,7 +116,7 @@ exports.costume_update_Page = async function(req, res) {
     console.log("update view for item " + req.query.id)
     try {
         let result = await Costume.findById(req.query.id)
-        res.render('costumedetail', { title: 'Costume Update', toShow: result });
+        res.render('costumeupdate', { title: 'Costume Update', toShow: result });
     } catch (err) {
         res.status(500)
         res.send(`{'error': '${err}'}`)

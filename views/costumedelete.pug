@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  .container.mt-4
+    h1= title
+    p.text-danger Are you sure you want to delete this costume?
+
+    .mb-3
+      strong Costume ID:
+      |  #{toShow._id}
+    .mb-2
+      strong Costume Type:
+      |  #{toShow.costume_type}
+    .mb-2
+      strong Size:
+      |  #{toShow.size}
+    .mb-4
+      strong Cost:
+      |  #{toShow.cost}
+
+    .d-flex.gap-2
+      button#deleteBtn.btn.btn-danger(type='button') Delete
+      button#cancelBtn.btn.btn-secondary(type='button') Cancel
+
+  script.
+    const costumeId = '!{toShow._id}';
+    const deleteBtn = document.getElementById('deleteBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    deleteBtn.addEventListener('click', async function() {
+      try {
+        const response = await fetch('/resource/costumes/' + encodeURIComponent(costumeId), {
+          method: 'DELETE'
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || 'Delete failed');
+        }
+
+        alert('Costume deleted successfully');
+        window.location.href = '/costumes';
+      } catch (err) {
+        alert('Failed to delete costume: ' + err.message);
+      }
+    });
+
+    cancelBtn.addEventListener('click', function() {
+      window.location.href = '/costumes';
+    });

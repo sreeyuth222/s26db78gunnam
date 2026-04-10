@@ -13,8 +13,15 @@ exports.costume_list = async function(req, res) {
 };
 
 // For a specific Costume
-exports.costume_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume detail: ' + req.params.id);
+exports.costume_detail = async function(req, res) {
+    console.log("detail " + req.params.id)
+    try {
+        let result = await Costume.findById(req.params.id)
+        res.send(result)
+    } catch (error) {
+        res.status(500)
+        res.send(`{"error": "Document for id ${req.params.id} not found"}`)
+    }
 };
 
 // Handle Costume create on POST

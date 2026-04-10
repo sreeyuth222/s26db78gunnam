@@ -1,0 +1,55 @@
+extends layout
+
+block content
+  .container.mt-4
+    h1= title
+
+    form#createCostumeForm
+      .mb-3
+        label.form-label(for='costume_type') Costume Type
+        input#costume_type.form-control(type='text', name='costume_type', required=true)
+
+      .mb-3
+        label.form-label(for='size') Size
+        input#size.form-control(type='text', name='size', required=true)
+
+      .mb-3
+        label.form-label(for='cost') Cost
+        input#cost.form-control(type='number', name='cost', step='0.01', min='0', required=true)
+
+      button.btn.btn-primary(type='submit') Create Costume
+
+  script.
+    const form = document.getElementById('createCostumeForm');
+
+    form.addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+      const payload = {
+        costume_type: formData.get('costume_type'),
+        size: formData.get('size'),
+        cost: Number(formData.get('cost'))
+      };
+
+      try {
+        const response = await fetch('/resource/costumes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || 'Request failed');
+        }
+
+        await response.json();
+        alert('Costume created successfully');
+        form.reset();
+      } catch (err) {
+        alert('Failed to create costume: ' + err.message);
+      }
+    });

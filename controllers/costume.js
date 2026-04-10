@@ -108,7 +108,7 @@ exports.costume_view_one_Page = async function(req, res) {
 
 // Handle building the view for creating a costume.
 exports.costume_create_Page = function(req, res) {
-    res.render('randomitem', { title: 'Costume Create' });
+    res.render('costumecreate', { title: 'Costume Create' });
 };
 
 // Handle building the view for updating a costume.

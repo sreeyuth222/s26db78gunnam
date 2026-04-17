@@ -1,0 +1,10 @@
+<!DOCTYPE html><html><head><title>Express</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/stylesheets/style.css"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script></head><body><div class="container mt-4"><h1>Express</h1><p>Welcome to Express</p><p><a href="/login">Login</a> |<a href="/register">Register</a></p><button class="btn btn-secondary" type="button" onclick="reduce()">Sample Button</button><div class="mt-3" id="use">take some away</div><hr><p><a href="/games">Go to Games Search Results</a></p><p><a href="/grid?rows=6&amp;cols=5">Go to Grid Display</a></p><p><a href="/selector">Go to Random Item Display</a></p></div><script>let current = 11;
+let quantity = 2;
+
+function reduce() {
+  current -= quantity;
+  if (current < 0) {
+    current = 0;
+  }
+  document.getElementById("use").innerHTML = `Reduced by ${quantity} to ${current}`;
+}</script></body></html>

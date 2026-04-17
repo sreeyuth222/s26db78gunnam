@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  .container.mt-4
+    h1= title
+
+    if message
+      .alert.alert-warning(role='alert')= message
+
+    form(method='POST', action='/login')
+      .mb-3
+        label.form-label(for='username') Username
+        input#username.form-control(type='text', name='username', required=true)
+
+      .mb-3
+        label.form-label(for='password') Password
+        input#password.form-control(type='password', name='password', required=true)
+
+      button.btn.btn-primary(type='submit') Login
+
+    p.mt-3
+      a(href='/register') Need an account? Register

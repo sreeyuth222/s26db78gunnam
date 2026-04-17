@@ -5,6 +5,18 @@ block content
     h1= title
     p Welcome to #{title}
 
+    if user
+      p.text-success Logged in as #{user.username}
+      p
+        a(href='/costumes') Go to Costumes Collection
+      p
+        a(href='/logout') Logout
+    else
+      p
+        a(href='/login') Login
+        |  |
+        a(href='/register') Register
+
     button(type="button", class="btn btn-secondary", onclick="reduce()") Sample Button
     div(id="use" class="mt-3") take some away
 

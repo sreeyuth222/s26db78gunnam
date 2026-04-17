@@ -2,6 +2,9 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var logger = require('morgan');
 
 require('dotenv').config();
@@ -9,6 +12,7 @@ const mongoose = require('mongoose');
 
 const connectionString = process.env.MONGO_CON;
 var Costume = require("./models/costume");
+var Account = require("./models/account");
 
 let reseed = true;
 
@@ -41,6 +45,13 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'costumeappsecret',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -50,6 +61,10 @@ app.use('/grid', gridRouter);
 app.use('/selector', selectorRouter);
 app.use('/resource', resourceRouter);
 app.use('/costumes', costumeRouter);
+
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

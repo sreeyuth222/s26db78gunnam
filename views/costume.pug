@@ -3,8 +3,14 @@ extends layout
 block content
   h1= title
 
+  script.
+    function dispatch(path) {
+      window.location.href = path;
+    }
+
   each item in results
     div
       h3= item.costume_type
       p Size: #{item.size}
       p Cost: #{item.cost}
+      button(type='button', onclick=`dispatch('/costumes/update?id=${item._id}')`) Update

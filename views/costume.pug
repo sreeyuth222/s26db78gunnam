@@ -8,9 +8,13 @@ block content
       window.location.href = path;
     }
 
+  button(type='button', onclick="dispatch('/costumes/create')") Create
+
   each item in results
     div
       h3= item.costume_type
       p Size: #{item.size}
       p Cost: #{item.cost}
+      button(type='button', onclick=`dispatch('/costumes/detail?id=${item._id}')`) Detail
       button(type='button', onclick=`dispatch('/costumes/update?id=${item._id}')`) Update
+      button(type='button', onclick=`dispatch('/costumes/delete?id=${item._id}')`) Delete
